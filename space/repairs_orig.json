@@ -1,0 +1,10 @@
+ {"Alcubierre Singularity Propulsion Drive":  { "name" "Unobtainium",   "amount" 2}
+ "Manifold Tidal Stabilizer"              :  { "name" "Vespene gas",   "amount" 2} 
+ "Repulsor Shields"                       :  { "name" "Xenium",        "amount" 2}
+ "Directed Energy Weapon System"          :  { "name" "Unobtainium",   "amount" 2}
+ "Mining Drones"                          :  { "name" "Tiberium",      "amount" 6}
+ "Tactical Conflict AI"                   :  { "name" "Unobtainium",   "amount" 2}, { "name" "Tiberium",     "amount" 4}
+ "Gravitational Disturbance Sensor"       :  { "name" "Vespene gas",   "amount" 2}
+ "Sublight Impulse Propulsion Drive"      :  { "name" "Xenium",        "amount" 2}
+ "Devirtualization Fab Workshop"          :  { "name" "Tiberium",      "amount" 6} }
+ 

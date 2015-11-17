@@ -1,0 +1,179 @@
+import urllib2
+
+import json
+
+from pylab import *
+
+import time
+
+
+
+import numpy as np
+
+import matplotlib.pyplot as plt
+
+
+
+url_root = "https://64.129.254.38:8000/api/?session=6bcf489f-756d-4e36-962f-12f3b76c8eb6"
+
+
+
+# get star data
+
+response = urllib2.urlopen(url_root + '&command=longrange')
+
+html = response.read()
+
+
+
+#prfloat html
+
+objects = json.loads(html)
+
+print objects
+
+
+
+x = []
+
+y = []
+
+labels = []
+
+x.append(88)
+
+y.append(144)
+
+labels.append("ship")
+
+for stars in objects["stars"]:
+
+    x.append(float(stars["x"]))
+
+    y.append(float(stars["y"]))
+
+    labels.append(stars["name"])
+
+print len(x)
+
+ 
+
+#plt.subplots_adjust(bottom = 0.1)
+
+#plt.scatter(
+
+#    x, y, marker = 'o', c = x, s =y*1500,
+
+#    cmap = plt.get_cmap('Spectral'))
+
+#for label, x, y in zip(labels, x, y):
+
+#    plt.annotate(
+
+#        label, 
+
+#        xy = (x, y), xytext = (-20, 20),
+
+#        textcoords = 'offset pofloats', ha = 'right', va = 'bottom',
+
+#        bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),
+
+#        arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
+
+#prfloat labels
+
+#plt.show()
+
+
+
+destination = raw_input("Enter a star:")
+
+print 'You entered', destination
+
+
+
+fin_x = 0
+
+fin_y = 0
+
+for stars in objects["stars"]:
+
+    if stars["name"] == destination:
+
+        fin_x = float(stars["x"])
+
+        fin_y = float(stars["y"])
+
+
+
+response2 = urllib2.urlopen(url_root + '&command=ship&arg=show')
+
+html = response2.read()
+
+ship = json.loads(html)
+
+beg_x = float(ship["unix"])
+
+beg_y = float(ship["uniy"])
+
+print beg_x, fin_x, beg_y, fin_y
+
+while abs(beg_x - fin_x) > 0.01:
+
+    print 'x:', beg_x, '->', fin_x
+
+    response2 = urllib2.urlopen(url_root + '&command=ship&arg=show')
+
+    html = response2.read()
+
+    ship = json.loads(html)
+
+    beg_x = float(ship["unix"])
+
+    dist = max(-0.4, fin_x - beg_x)
+
+    dist = min(0.4, dist)
+
+    print dist
+
+    resp = urllib2.urlopen(url_root + '&command=ship&arg=setunivecx&arg2=' + str(dist))
+
+    time.sleep(0.3)
+
+resp = urllib2.urlopen(url_root + '&command=ship&arg=setunivecx&arg2=' + str(0))
+
+while abs(beg_y - fin_y) > 0.01:
+
+    print 'y:', beg_y, '->', fin_y
+
+    response2 = urllib2.urlopen(url_root + '&command=ship&arg=show')
+
+    html = response2.read()
+
+    ship = json.loads(html)
+
+    beg_y = float(ship["uniy"])
+
+    
+
+    dist = max(-0.4, fin_y - beg_y)
+
+    dist = min(0.4, dist)
+
+    print dist
+
+    urllib2.urlopen(url_root + '&command=ship&arg=setunivecy&arg2=' + str(dist))
+
+    time.sleep(0.3)
+
+resp = urllib2.urlopen(url_root + '&command=ship&arg=setunivecy&arg2=' + str(0))
+
+
+
+response2 = urllib2.urlopen(url_root + '&command=ship&arg=show')
+
+html = response2.read()
+
+ship = json.loads(html)
+
+print ship["currentsystem"]
